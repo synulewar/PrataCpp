@@ -1,46 +1,85 @@
-// chapter7/1
+// chapter7/2
 #include <iostream>
 #include <cstdlib>
 using namespace std;
 const int MAXSIZE = 10;
 
+int getData(int arr[], int size);
+void displayData(const int arr[], int size);
+int calculateAverage(const int arr[], int size);
+
 int main()
 {
 
 	int golfScores[MAXSIZE];
-
-	cout << "Enter max 10 golf scores, press q if you want to stop entering values.";
-
-
-	for (int i = 0; i < MAXSIZE; ++i)
+	int enteredData;
+	
+	enteredData = getData(golfScores, MAXSIZE);
+	
+	if (enteredData == 0)
 	{
-		while(!(cin >> golfScores[i]))
-			{
-				cin.clear();
-				while (cin.get() != '\n')
-					continue;
-				cout << "Invalid input. Please provide numbers!";
-			}
+		cout << "No scores entered. Terminate program" << endl;
+		return EXIT_SUCCESS;
 	}
-	do
+	
+	displayData(golfScores, enteredData);
+	cout << "Average score: " << calculateAverage(golfScores, enteredData) << endl;
+	return EXIT_SUCCESS;
+}
+
+int getData(int arr[], int size)
+{
+	char ch;
+	bool quit = false;
+	cout << "Enter first golf score or press q if you want to stop entering values: ";
+	int i;
+	for (i = 0; i < size; ++i)
 	{
-		while(!(cin >> pair.x >> pair.y))
+		while(!(cin >> arr[i]) )
+		{				
+			do
 			{
 				cin.clear();
-				while (cin.get() != '\n')
-					continue;
-				cout << "Invalid input. Please provide numbers!";
+				ch = cin.get();
+				if (ch == 'q')
+				{
+					quit = true;
+					break;
+				}
+			}while(ch != '\n');
+				
+			if (quit) 
+			{
+				break;
 			}
-
-		if(pair.x == 0 || pair.y == 0)
-		{
+				cout << "Invalid input. Please provide number!";
+		}
+		
+		if (quit) {
 			break;
 		}
+		cout << "Provide another scrore or q to terminate input: ";
+	}
+	
+	return i;
+}
 
-		cout << "Harmonic mean of " << pair.x << " and " << pair.y << " equals " << calculateHarmonic(pair) << endl;
+void displayData(const int arr[], int size)
+{
+	for(int i = 0; i < size; ++i)
+	{
+		cout << "Score number #" << (i + 1) << ": " << arr[i] << endl;
+	}
+}
 
-		cout << "Provide another pair of numbers: ";
-	}while(true);
-
-	return EXIT_SUCCESS;
+int calculateAverage(const int arr[], int size) 
+{
+	int total = 0;
+	for(int i = 0; i < size; ++i)
+	{
+		total += arr[i];
+	}
+	
+	return total/size;
+	
 }
